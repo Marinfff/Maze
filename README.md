@@ -1,5 +1,5 @@
-# TROLOLO RUNNER
-TS + HTML5 + WEBPACK 2d runner
+# MAZE
+TS + HTML5 + WEBPACK maze
 
 ## Project setup
 ```
