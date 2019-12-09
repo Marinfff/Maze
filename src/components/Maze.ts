@@ -1,17 +1,21 @@
 // @ts-ignore
 import mazeGenerator from 'amazejs';
 
-export interface MazeInterface {
+interface MazeInterface {
   render(): void,
 
-  setSprite(sprite: any): Maze,
+  setSprite(sprite: any): void,
 
   generate(): Promise<any>,
+
+  getCell(x: number, y: number): boolean,
+
+  getSize(): any,
 
   next(): Promise<any>
 }
 
-export class Maze implements MazeInterface {
+class Maze implements MazeInterface {
   private sprite: HTMLImageElement;
   private maze: any;
   private canvas: any;
@@ -29,30 +33,30 @@ export class Maze implements MazeInterface {
     this.canvas.setAttribute('height', window.innerHeight)
   }
 
-  async generate(): Promise<any> {
+  public async generate(): Promise<any> {
     this.maze = new mazeGenerator.Backtracker(this.width, this.height);
     await this.maze.generate();
     this.render();
   }
 
-  async next(): Promise<any> {
+  public async next(): Promise<any> {
     this.width += 2;
     this.height += 2;
     await this.generate();
   }
 
-  getCell(x: number, y: number) {
+  public getCell(x: number, y: number): boolean {
     return this.maze.get(x, y)
   }
 
-  getSize() {
+  public getSize(): any {
     return {
       width: this.width,
       height: this.height
     }
   }
 
-  render(): void {
+  public render(): void {
     this.context.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     let row = 0;
@@ -77,8 +81,9 @@ export class Maze implements MazeInterface {
     }
   }
 
-  setSprite(sprite: any): Maze {
+  public setSprite(sprite: any) {
     this.sprite.src = sprite.default;
-    return this
   }
 }
+
+export default Maze

@@ -1,0 +1,10 @@
+{
+  "box": "/assets/images/box.png",
+  "playerLeft": "/assets/images/player/left.png",
+  "playerRight": "/assets/images/player/right.png",
+  "playerTop": "/assets/images/player/top.png",
+  "playerBottom": "/assets/images/player/bottom.png",
+  "playerSound": "/assets/sound/step.mp3",
+  "backSound": "/assets/sound/back.mp3",
+  "winSound": "/assets/sound/win.mp3"
+}

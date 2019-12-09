@@ -1,5 +1,5 @@
 {
-  "name": "game",
+  "name": "trtr",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
     "build": "webpack --config webpack.config.js"
   },
   "keywords": [],
-  "author": "Marin",
+  "author": "Valentin",
   "devDependencies": {
     "@types/node": "^12.7.5",
     "@types/webpack": "^4.39.1",
@@ -31,7 +31,6 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "amazejs": "^1.0.3",
-    "webpack-spritesmith": "^1.0.2"
+    "amazejs": "^1.0.3"
   }
 }

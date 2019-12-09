@@ -40,7 +40,7 @@ const config = {
 module.exports = [
   {
     ...config,
-    entry: path.join(__dirname, 'index.ts'),
+    entry: path.join(__dirname, 'src', 'index.ts'),
     output: {
       path: path.join(__dirname, 'dist'),
       filename: 'index.js'

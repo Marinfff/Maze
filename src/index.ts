@@ -1,64 +1,62 @@
-import "./src/style/style.css"
-import {Maze} from "./src/components/Maze";
-import {Player} from "./src/components/Player";
-import {UserInterface} from "./src/components/UI";
-
-const maze = new Maze();
-const player = new Player();
-const userInterface = new UserInterface();
+import "./style/style.css"
+import config from "./config/config.json"
+import Maze from "./components/Maze";
+import Player from "./components/Player";
+import UserInterface from "./components/UI";
 
 class Game {
-  private maze: any;
-  private player: any;
-  private backSound: any;
-  private winSound: any;
-  private userInterface: any;
+  private readonly maze: Maze;
+  private config: any;
+  private player: Player;
+  private userInterface: UserInterface;
+  private backSound: HTMLAudioElement;
+  private winSound: HTMLAudioElement;
 
-  constructor(maze: any, player: any, userInterface: any) {
-    this.maze = maze;
-    this.player = player;
-    this.userInterface = userInterface;
+  constructor() {
+    this.maze = new Maze();
+    this.player = new Player();
+    this.userInterface = new UserInterface();
     this.backSound = new Audio();
     this.winSound = new Audio();
+    this.config = config;
   }
 
-  async init() {
-    await this.loadSound();
+ public async init() {
+    this.backSound.src = (await import('./src' + this.config.backSound)).default;
+    this.winSound.src = (await import('./src' + this.config.winSound)).default;
+
+    await this.backSound.play();
     await this.userInterface.confirmGameStart();
     this.userInterface.toggleLoader();
-    this.maze.setSprite(await import('./src/assets/images/box.png'))
+
+    this.maze.setSprite(await import('./src' + this.config.box))
     await this.player.loadEnvironment({
-      top: await import('./src/assets/images/player/top.png'),
-      left: await import('./src/assets/images/player/left.png'),
-      bottom: await import('./src/assets/images/player/bottom.png'),
-      right: await import('./src/assets/images/player/right.png'),
-      audio: await import('./src/assets/sound/step.mp3'),
+      top: await import('./src' + this.config.playerTop),
+      left: await import('./src' + this.config.playerLeft),
+      bottom: await import('./src' + this.config.playerBottom),
+      right: await import('./src' + this.config.playerRight),
+      audio: await import('./src' + this.config.playerSound),
     });
+
     await this.maze.generate();
     this.player.setMatrix(this.maze);
     this.addListeners();
     this.userInterface.toggleLoader();
   }
 
-  private async loadSound() {
-    this.backSound.src = (await import('./src/assets/sound/back.mp3')).default;
-    this.winSound.src = (await import('./src/assets/sound/win.mp3')).default;
-   await this.backSound.play()
-  }
-
-
-  async upLevel() {
+  private async upLevel() {
     await this.maze.next();
     this.player.reset();
     this.player.setMatrix(this.maze);
   }
 
-  async checkEndLevel() {
+  private async checkEndLevel() {
     if (
       this.maze.getSize().width == this.player.getSquare().x + 3
       && this.maze.getSize().height == this.player.getSquare().y + 3
     ) {
-      await this.winSound.play()
+
+      await this.winSound.play();
       this.userInterface.showGameOver();
 
       try {
@@ -71,7 +69,7 @@ class Game {
     }
   }
 
-  addListeners() {
+  private addListeners() {
     document.addEventListener('keypress', (e) => {
       switch (e.code) {
         case 'KeyD':
@@ -95,7 +93,7 @@ class Game {
   }
 }
 
-const game = new Game(maze, player, userInterface)
+const game = new Game();
 
 game.init();
 

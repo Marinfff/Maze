@@ -1,16 +1,22 @@
-export interface PlayerInterface {
+interface PlayerInterface {
   loadEnvironment(data: any): void,
+
+  setMatrix(matrix: any): any,
 
   move(direction: string): void,
 
   stop(): void,
 
+  reset(): void,
+
   getSquare(): any,
+
+  freeSquare(dx: any, dy: any): boolean,
 
   animate(context: any): void,
 }
 
-export class Player implements PlayerInterface {
+ class Player implements PlayerInterface {
   private sprites: any;
   private currentFrame: number;
   private currentMove: string;
@@ -50,11 +56,11 @@ export class Player implements PlayerInterface {
     this.canvas.setAttribute('height', window.innerHeight)
   }
 
-  setMatrix(matrix: any) {
+  public setMatrix(matrix: any) {
     this.matrix = matrix;
   }
 
-  reset () {
+  public reset() {
     this.positionX = 0;
     this.positionY = 50;
     this.currentFrame = 0;
@@ -63,11 +69,10 @@ export class Player implements PlayerInterface {
     this.stop()
   }
 
-  freeSquare(dx: any, dy: any): boolean {
+  public freeSquare(dx: any, dy: any): boolean {
     const {x, y} = this.getSquare();
     return this.matrix.getCell(y + dx, x + dy)
   }
-
 
   public loadEnvironment(data: any) {
     this.sprites.top.src = data.top.default;
@@ -152,7 +157,7 @@ export class Player implements PlayerInterface {
     }, 1000 / this.fps);
   }
 
-  move(direction: string): void {
+  public move(direction: string): void {
     if (this.currentMove != direction) {
       this.currentMove = direction;
       this.currentSprite = this.sprites[direction];
@@ -161,8 +166,10 @@ export class Player implements PlayerInterface {
     }
   }
 
-  stop(): void {
+  public stop(): void {
     this.fps = 0;
     this.currentMove = ''
   }
 }
+
+export default Player

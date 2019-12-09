@@ -1,6 +1,6 @@
 import Locale from '../config/locale.json';
 
-export interface UserInterfaceInterface {
+ interface UserInterfaceInterface {
   showGameOver(score: number): void,
 
   toggleLoader(): void,
@@ -8,9 +8,10 @@ export interface UserInterfaceInterface {
   confirmGameOver(): Promise<any>,
 
   confirmGameStart(): Promise<any>,
-}
 
-export class UserInterface implements UserInterfaceInterface {
+  hideEndModal (): void
+}
+ class UserInterface implements UserInterfaceInterface {
   private userInterface: any;
   private showLoader: boolean;
   private showEndModal: boolean;
@@ -61,13 +62,13 @@ export class UserInterface implements UserInterfaceInterface {
     })
   }
 
-  private hide() {
-    this.userInterface.innerHTML = '';
-  }
-
   public hideEndModal () {
     this.showEndModal = false;
     this.hide();
+  }
+
+  private hide() {
+    this.userInterface.innerHTML = '';
   }
 
   private show() {
@@ -210,3 +211,5 @@ export class UserInterface implements UserInterfaceInterface {
     `
   }
 }
+
+export default UserInterface
