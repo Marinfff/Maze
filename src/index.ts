@@ -21,21 +21,21 @@ class Game {
     this.config = config;
   }
 
- public async init() {
-    this.backSound.src = (await import('./src' + this.config.backSound)).default;
-    this.winSound.src = (await import('./src' + this.config.winSound)).default;
+  public async init() {
+    this.backSound.src = (await import(`./assets/${this.config.backSound}`)).default;
+    this.winSound.src = (await import(`./assets/${this.config.winSound}`)).default;
 
-    await this.backSound.play();
     await this.userInterface.confirmGameStart();
+    await this.backSound.play();
     this.userInterface.toggleLoader();
 
-    this.maze.setSprite(await import('./src' + this.config.box))
+    this.maze.setSprite(await import(`./assets/${this.config.box}`))
     await this.player.loadEnvironment({
-      top: await import('./src' + this.config.playerTop),
-      left: await import('./src' + this.config.playerLeft),
-      bottom: await import('./src' + this.config.playerBottom),
-      right: await import('./src' + this.config.playerRight),
-      audio: await import('./src' + this.config.playerSound),
+      top: await import(`./assets/${this.config.playerTop}`),
+      left: await import(`./assets/${this.config.playerLeft}`),
+      bottom: await import(`./assets/${this.config.playerBottom}`),
+      right: await import(`./assets/${this.config.playerRight}`),
+      audio: await import(`./assets/${this.config.playerSound}`),
     });
 
     await this.maze.generate();
